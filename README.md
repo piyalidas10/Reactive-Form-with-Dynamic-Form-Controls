@@ -184,21 +184,21 @@ this.formFields = [
         ]
       }
     ];
-    ```
+```
 
-    ### ValidatorFn
-    A function that receives a control and synchronously returns a map of validation errors if present, otherwise null.
+### ValidatorFn
+A function that receives a control and synchronously returns a map of validation errors if present, otherwise null.
 
-    We have a few built in validators in Angular:
+We have a few built in validators in Angular:
 
-      1. required
-      2. minlength
-      3. maxlength
-      4. pattern
+  1. required
+  2. minlength
+  3. maxlength
+  4. pattern
 
-    Creating a custom validator for reactive forms is actually more simple than for a template driven form. You only need to implement ValidatorFn, which takes a form control and returns an error object.
+Creating a custom validator for reactive forms is actually more simple than for a template driven form. You only need to implement ValidatorFn, which takes a form control and returns an error object.
 
-     ```
+```
     const validatorsArr: ValidatorFn[] = [];
       if (element.valids.length > 0) {
 
@@ -219,7 +219,7 @@ this.formFields = [
         });
 
         this.registerForm.addControl(element.key, new FormControl('', validatorsArr));
-     ```
+```
 
-     validatorsArr is used to store validators controls for each fields. 
+validatorsArr is used to store validators controls for each fields. 
 
