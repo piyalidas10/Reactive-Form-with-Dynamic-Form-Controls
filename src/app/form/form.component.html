@@ -1,0 +1,70 @@
+<form [formGroup]="registerForm" #formDir="ngForm" (ngSubmit)="onSubmit()">
+  <div class="row" *ngFor="let form of formFields; let i = index">
+    <div class="col-12 form-group" *ngIf="form.input == 'text'">
+      <label>{{form.key}}</label>
+      <input [type]="form.input" [formControlName]="form.key" class="form-control" [ngClass]="{'is-invalid' : registerForm.get(form.key).errors && formDir.submitted }">
+      <div *ngIf="!registerForm.get(form.key).valid && registerForm.get(form.key).errors && formDir.submitted">
+          <div *ngFor="let err of form.valids; let k = index">
+              <span class="error" *ngIf="registerForm.get(form.key).hasError(err.valid)">{{err.error}}</span>
+          </div>
+      </div>
+    </div>
+    <div class="col-12 form-group" *ngIf="form.input == 'email'">
+      <label>{{form.key}}</label>
+      <input [type]="form.input" [formControlName]="form.key" class="form-control" [ngClass]="{'is-invalid' : registerForm.get(form.key).errors && formDir.submitted }">
+      <div *ngIf="!registerForm.get(form.key).valid && registerForm.get(form.key).errors && formDir.submitted">
+          <div *ngFor="let err of form.valids; let k = index">
+              <span class="error" *ngIf="registerForm.get(form.key).hasError(err.valid)">{{err.error}}</span>
+          </div>
+      </div>
+    </div>
+    <div class="col-12 form-group" *ngIf="form.input == 'password'">
+      <label>{{form.key}}</label>
+      <input [type]="form.input" minlength="3" [formControlName]="form.key" class="form-control" [ngClass]="{'is-invalid' : registerForm.get(form.key).errors && formDir.submitted }">
+      <div *ngIf="!registerForm.get(form.key).valid && registerForm.get(form.key).errors && formDir.submitted">
+          <div *ngFor="let err of form.valids; let k = index">
+              <span class="error" *ngIf="registerForm.get(form.key).hasError(err.valid)">{{err.error}}</span>
+          </div>
+      </div>
+    </div>
+    <div class="col-12 form-group" *ngIf="form.input == 'select'">
+      <label>{{form.key}}</label>
+      <select [formControlName]="form.key" class="form-control" [ngClass]="{'is-invalid' : registerForm.get(form.key).errors && formDir.submitted }">
+        <option *ngFor="let item of form.items; let j = index" [value]="item.id">
+          {{item.name}}
+        </option>
+      </select>
+      <div *ngIf="!registerForm.get(form.key).valid && registerForm.get(form.key).errors && formDir.submitted ">
+          <div *ngFor="let err of form.valids; let k = index">
+              <span class="error" *ngIf="registerForm.get(form.key).hasError(err.valid)">{{err.error}}</span>
+          </div>
+      </div>
+    </div>
+    <div class="col-12 form-group" *ngIf="form.input == 'radio'">
+      <label>{{form.key}}</label>
+      <div class="form-group">
+        <div class="form-check-inline" *ngFor="let item of form.items; let j = index">
+          <label class="form-check-label">
+            <input [type]="form.input" class="form-check-input" [formControlName]="form.key" [value]="item.id" [ngClass]="{'is-invalid' : registerForm.get(form.key).errors && formDir.submitted }">{{item.name}}
+          </label>
+        </div>
+        <div *ngIf="!registerForm.get(form.key).valid && registerForm.get(form.key).errors && formDir.submitted">
+            <div *ngFor="let err of form.valids; let k = index">
+                <span class="error" *ngIf="registerForm.get(form.key).hasError(err.valid)">{{err.error}}</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 form-group">
+      <button type="submit" class="btn btn-block btn-success">Submit</button>
+    </div>
+  </div>
+</form>
+
+<div class="row result" *ngIf="isShow">
+    <div class="col-12 form-group">
+       <p *ngFor="let form of formFields;">{{form.key}} : {{submitData[form.key]}}</p>
+    </div>
+</div>      

@@ -1,3 +1,9 @@
 h4{
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.formBox{
+    box-shadow: 0 0 5px #dadada, inset 0 -3px 0 #e6e6e6;
+    border: 1px solid #ddd;
+    padding: 25px;
 }
