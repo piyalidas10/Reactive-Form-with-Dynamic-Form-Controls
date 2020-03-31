@@ -114,6 +114,7 @@ export class FormComponent implements OnInit {
         ]
       }
     ];
+    console.log('formFields data => ', this.formFields);
    }
 
   ngOnInit() {
@@ -127,7 +128,7 @@ export class FormComponent implements OnInit {
       if (element.valids.length > 0) {
 
         element.valids.forEach(val => {
-          if (val.valid === 'required') {
+          if (val.valid === 'required' || val.valid === 'email') {
             validatorsArr.push(Validators[val.valid]);
           }
           if (val.valid === 'pattern') {
@@ -146,7 +147,7 @@ export class FormComponent implements OnInit {
       } else {
         this.registerForm.addControl(element.key, new FormControl(''));
       }
-      console.log('validatorsArr => ', validatorsArr);
+      console.log('validatorsArr of ' + element.key + ' => ', validatorsArr);
     });
   }
 

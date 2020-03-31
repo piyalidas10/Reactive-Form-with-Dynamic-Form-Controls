@@ -45,10 +45,10 @@ form is submitted or not using "formDir.submitted" checking. "formDir.submitted"
 ```
 <div class="col-12 form-group">
   <label>email</label>
-  <input type="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid' : registerForm.get(form.key).errors && formDir.submitted }">
-  <div *ngIf="!registerForm.get(form.key).valid && registerForm.get(form.key).errors && formDir.submitted">
-    <span class="error" *ngIf="registerForm.get(form.key).errors.hasOwnProperty('required')">email is required</span>
-    <span class="error" *ngIf="registerForm.get(form.key).errors.hasOwnProperty('email')">email must be valid</span>
+  <input type="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid' : registerForm.get('email').errors && formDir.submitted }">
+  <div *ngIf="!registerForm.get('email').valid && registerForm.get('email').errors && formDir.submitted">
+    <span class="error" *ngIf="registerForm.get('email').errors.hasOwnProperty('required')">email is required</span>
+    <span class="error" *ngIf="registerForm.get('email').errors.hasOwnProperty('email')">email must be valid</span>
   </div>
 </div>
 ``` 
@@ -80,3 +80,146 @@ OR
   </div>
 </div>
 ```
+
+### JSOn Form Data
+```
+this.formFields = [
+      {
+        key: 'email',
+        input: 'email',
+        valids: [
+          {
+            valid: 'required',
+            error: 'email is required'
+          },
+          {
+            valid: 'email',
+            error: 'email must be valid'
+           }
+        ]
+      },
+      {
+        key: 'username',
+        input: 'text',
+        valids: [
+          {
+            valid: 'required',
+            error: 'username is required'
+          },
+          {
+            valid: 'pattern',
+            validator: '^[a-zA-Z]+$',
+            error: 'username is accept only text'
+          },
+          {
+            valid: 'minlength',
+            length: 3,
+            error: 'username must be at least 3 characters'
+          }
+        ]
+      },
+      {
+        key: 'password',
+        input: 'password',
+        valids: [
+          {
+            valid: 'required',
+            error: 'password is required'
+          },
+          {
+            valid: 'minlength',
+            length: 6,
+            error: 'Password must be at least 6 characters'
+          }
+        ]
+      },
+      {
+        key: 'phone',
+        input: 'text',
+        valids: [
+          {
+            valid: 'required',
+            error: 'phone is required'
+          },
+          {
+            valid: 'pattern',
+            validator: '^[0-9]{10}$',
+            error: 'phone is accept only number and maximum 10 numbers '
+          }
+        ]
+      },
+      {
+        key: 'gender',
+        input: 'radio',
+        items: [
+          {
+            name: 'male',
+            id: 0
+          },
+          {
+            name: 'female',
+            id: 1
+          }
+        ],
+        valids: []
+      },
+      {
+        key: 'country',
+        input: 'select',
+        items: [
+          {
+            name: 'india',
+            id: 0
+          },
+          {
+            name: 'bangladesh',
+            id: 1
+          }
+        ],
+        valids: [
+          {
+            valid: 'required',
+            error: 'country is required'
+          }
+        ]
+      }
+    ];
+    ```
+
+    ### ValidatorFn
+    A function that receives a control and synchronously returns a map of validation errors if present, otherwise null.
+
+    We have a few built in validators in Angular:
+
+      1. required
+      2. minlength
+      3. maxlength
+      4. pattern
+
+    Creating a custom validator for reactive forms is actually more simple than for a template driven form. You only need to implement ValidatorFn, which takes a form control and returns an error object.
+
+     ```
+    const validatorsArr: ValidatorFn[] = [];
+      if (element.valids.length > 0) {
+
+        element.valids.forEach(val => {
+          if (val.valid === 'required') {
+            validatorsArr.push(Validators[val.valid]);
+          }
+          if (val.valid === 'pattern') {
+            validatorsArr.push(
+              Validators.pattern(val.validator)
+            );
+          }
+          if (val.valid === 'minlength') {
+            validatorsArr.push(
+              Validators.minLength(val.length)
+            );
+          }
+        });
+
+        this.registerForm.addControl(element.key, new FormControl('', validatorsArr));
+     ```
+
+     validatorsArr is used to store validators controls for each fields. 
+
